@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class ChestScript : MonoBehaviour
 {
     Outline outline;
@@ -17,7 +17,7 @@ public class ChestScript : MonoBehaviour
 		if(other.gameObject.CompareTag("Key"))
 		{
 			outline.enabled = true;
-		
+			StartCoroutine(LoadLockPickingScnene());
 		}
 	}
 
@@ -28,5 +28,11 @@ public class ChestScript : MonoBehaviour
 			outline.enabled = false;
 	
 		}
+	}
+
+	IEnumerator LoadLockPickingScnene()
+	{
+		yield return new WaitForSeconds(3.0f);
+		SceneManager.LoadScene("LockPickingScene");
 	}
 }
