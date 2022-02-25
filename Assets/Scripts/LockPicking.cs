@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 public class LockPicking : MonoBehaviour
 {
 	[Header ("Pin properties")]
@@ -37,14 +39,18 @@ public class LockPicking : MonoBehaviour
 	[SerializeField]
 	private float sweetSpotRotation;
 	public TextMeshProUGUI text;
+	public TextMeshProUGUI playerSkill;
 	[Header("Sound properties")]
 	public AudioSource audioSource;
 	public AudioClip[] audioClips;
+	public GameObject backButton;
 	private void Start()
 	{
 		GenerateLockSpot();
 		this.gameObject.GetComponent<Outline>().enabled = false;
 		audioSource = GetComponent<AudioSource>();
+		backButton.GetComponent<Button>().onClick.AddListener(OnBackClicked);
+		PlayerSkillLevel();
 	}
 	private void Update()
 	{
@@ -53,7 +59,8 @@ public class LockPicking : MonoBehaviour
 			RotatePin();
 			RotateScrewDriver();
 		}
-		CheckUpdate();
+		if (LockState.lsLockBroken || LockState.isUnlocked || LockState.isTimeOver)
+			CheckUpdate();
 	}
 
 	private void RotatePin()
@@ -136,11 +143,102 @@ public class LockPicking : MonoBehaviour
 
 	private void CheckUpdate()
 	{
+		backButton.SetActive(true);
 		if (LockState.isTimeOver)
+		{
 			text.SetText("Time is over!");
+
+		}
 		if (LockState.isUnlocked)
+		{
 			text.SetText("The lock is open!");
+		}
 		if (LockState.lsLockBroken)
+		{
 			text.SetText("The lock is broken!");
+		}
+	}
+
+	private void OnBackClicked()
+	{
+		if (LockState.isUnlocked)
+		{
+			ChangeSkill(LockState.GameMode);
+		}
+		ResetGame();
+		SceneManager.LoadScene("Main");
+	}
+
+	private void ResetGame()
+	{
+		 LockState.isSpotFound = false;
+		 LockState.isUnlocked = false;
+		 LockState.lsLockBroken = false;
+		 LockState.isLockMoved = false;
+		 LockState.isTimeOver = false;
+		 LockState.PinIsMoved = false;
+		Time.timeScale = 1;
+		text.SetText("");
+	}
+
+	private void PlayerSkillLevel()
+	{
+		if(LockState.GameMode == 0)
+		{
+			SetLevelText(LockState.NovicePinRotationSpeed);
+			PinTurnSpeed = LockState.NovicePinRotationSpeed;
+		}
+		else if (LockState.GameMode == 1)
+		{
+			SetLevelText(LockState.CasualPinRotationSpeed);
+			PinTurnSpeed = LockState.CasualPinRotationSpeed;
+		}
+		else if (LockState.GameMode == 2)
+		{
+			SetLevelText(LockState.MasterPinRotationSpeed);
+			PinTurnSpeed = LockState.MasterPinRotationSpeed;
+		}
+	}
+	private void SetLevelText(float skill)
+	{
+		switch (skill)
+		{
+			case 30:
+				playerSkill.SetText("Player Skill: Basic");
+				break;
+			case 28:
+				playerSkill.SetText("Player Skill: Intermediate");
+				break;
+			case 25:
+				playerSkill.SetText("Player Skill: Advanced");
+				break;
+
+		}
+	}
+	private void ChangeSkill( int gameMode)
+	{
+		switch (gameMode)
+		{
+			case 0:
+
+				if (LockState.NovicePinRotationSpeed >=28)
+				LockState.NovicePinRotationSpeed -= 3;
+				else
+					LockState.NovicePinRotationSpeed =25;
+				break;
+			case 1:
+				if (LockState.CasualPinRotationSpeed >= 28)
+					LockState.CasualPinRotationSpeed -= 3;
+				else
+					LockState.CasualPinRotationSpeed = 25;
+				break;
+			case 2:
+				if (LockState.MasterPinRotationSpeed >= 28)
+					LockState.MasterPinRotationSpeed -= 3;
+				else
+					LockState.MasterPinRotationSpeed = 25;
+				break;
+
+		}
 	}
 }

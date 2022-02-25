@@ -35,14 +35,16 @@ public class ChestScript : MonoBehaviour
 	IEnumerator LoadLockPickingScnene()
 	{
 		yield return new WaitForSeconds(3.0f);
-		SceneManager.LoadScene("LockPickingScene");
+		outline.enabled = false;
+		LockState.GameMode = (int)mode;
+		SceneManager.LoadScene("LockPickingScene"+(int)mode);
 	}
 }
 
 public enum Mode
 	{
-		Easy,
-		Normal,
-		Hard
+		Novice,
+		Casual,
+		Master
 
 	}

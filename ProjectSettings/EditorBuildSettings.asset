@@ -9,9 +9,15 @@ EditorBuildSettings:
     path: Assets/Scenes/Main.unity
     guid: 8fdb66b3d5f94c2488dec767fb72a89e
   - enabled: 1
-    path: Assets/Scenes/LockPickingScene.unity
+    path: Assets/Scenes/LockPickingScene0.unity
     guid: f63a54e5d2084944eb2d6b3dde2de524
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/LockPickingScene2.unity
+    guid: 3dc18c54dc046a94795b39ddd1fdc11f
+  - enabled: 1
+    path: Assets/Scenes/LockPickingScene1.unity
+    guid: d175fbdf524f923498d6e1739f34fbd3
   m_configObjects: {}
