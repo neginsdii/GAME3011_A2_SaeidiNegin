@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Key
+  - Lock
+  - Pin
   layers:
   - Default
   - TransparentFX

@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 public class ChestScript : MonoBehaviour
 {
     Outline outline;
+	public Mode mode;
+
     void Start()
     {
         outline = GetComponent<Outline>();
@@ -14,7 +16,7 @@ public class ChestScript : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if(other.gameObject.CompareTag("Key"))
+		if(other.gameObject.CompareTag("Player"))
 		{
 			outline.enabled = true;
 			StartCoroutine(LoadLockPickingScnene());
@@ -23,7 +25,7 @@ public class ChestScript : MonoBehaviour
 
 	private void OnTriggerExit(Collider other)
 	{
-		if(other.gameObject.CompareTag("Key"))
+		if(other.gameObject.CompareTag("Player"))
 		{
 			outline.enabled = false;
 	
@@ -36,3 +38,11 @@ public class ChestScript : MonoBehaviour
 		SceneManager.LoadScene("LockPickingScene");
 	}
 }
+
+public enum Mode
+	{
+		Easy,
+		Normal,
+		Hard
+
+	}
